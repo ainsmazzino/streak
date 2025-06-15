@@ -4,7 +4,7 @@ services:
     name: streak-project
     runtime: python
     buildCommand: "./build.sh"
-    startCommand: "gunicorn streak_project.wsgi:application"
+    startCommand: "venv/bin/gunicorn streak_project.wsgi:application"
     env: python
     envVars:
       - key: DEBUG
