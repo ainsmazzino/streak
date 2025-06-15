@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+<div class="card">
+    <h1 style="font-size: 2rem; color: #f0e6ff; margin-bottom: 1rem;">👤 Your Profile</h1>
+
+    <div style="font-size: 1.1rem; color: #fff; line-height: 1.8;">
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Points:</strong> 🏅 {{ user.points|floatformat:0 }}</p>
+        <p><strong>Current Streak:</strong> 🔥 {{ user.streak }} days</p>
+        <p><strong>Last Check-in:</strong> 🕓 {{ user.last_checkin|default:"Never" }}</p>
+    </div>
+</div>
+
+<div class="card">
+    <h2 style="font-size: 1.6rem; color: #e0ccff;">📜 Recent Activity</h2>
+
+    <ul style="list-style: none; padding: 0; margin-top: 1rem;">
+        {% for activity in user.activity_set.all|slice:":10" %}
+            <li style="
+                background: rgba(255, 255, 255, 0.06);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 10px;
+                padding: 0.75rem 1rem;
+                margin-bottom: 0.6rem;
+                color: #ffffff;
+                font-size: 0.95rem;
+                backdrop-filter: blur(8px);
+                ">
+                📅 {{ activity.date|date:"M d, Y" }} — {{ activity.note }}
+            </li>
+        {% empty %}
+            <li style="color: #ccc; font-style: italic;">No activity yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<style>
+    .card {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        padding: 1.8rem;
+        margin-bottom: 2rem;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .card h2, .card h1 {
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
